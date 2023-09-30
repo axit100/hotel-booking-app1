@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -17,5 +18,9 @@ use App\Http\Controllers\HomeController;
 //Route::get('/', function () {
 //    return view('welcome');
 //});
-Route::get('/', [HomeController::class, 'index'])->name('homepage');
-Route::get('/list', [HomeController::class, 'list'])->name('list');
+Route::get('/', [WebsiteController::class, 'index'])->name('homepage');
+Route::get('/list', [WebsiteController::class, 'list'])->name('list');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\WebsiteController::class, 'index'])->name('home');

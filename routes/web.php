@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,6 @@ use App\Http\Controllers\HomeController;
 //});
 Route::get('/', [HomeController::class, 'index'])->name('homepage');
 Route::get('/list', [HomeController::class, 'list'])->name('list');
+Route::get('/productsData', [HomeController::class, 'productsData'])->name('productsData');
+Route::get('/view/{id}', [HomeController::class, 'view'])->name('view');
+

@@ -1,4 +1,4 @@
-@extends('layouts.web')
+@extends('layouts.products')
 @push('css_lib')
 
 @endpush

@@ -37,10 +37,49 @@ class HomeController extends Controller
         $total =  $total['total'] ?? "N/A";
         return view('list', compact('category','listings','total'));
     }
+
     public function getMap(Request $request)
     {
         $data = Contact::where('status',1)->with('category')->get();
 
         return $data;
     }
+
+    // Livewire Function starts
+    public function view(Request $request, $id)
+    {
+
+        try {
+            $category = categories::where('status',1)->get();
+            $listings = Contact::where('status', 1)->with('category')->findOrFail($id);
+//            dd($listings);
+            return view('view', compact('category', 'listings'));
+        } catch (ModelNotFoundException $e) {
+            // The record was not found, redirect to the 404 page.
+            return view('errors.404');
+        }
+    }
+
+    public function productsData(Request $request)
+    {
+        $category = categories::where('status',1)->get();
+        $listings = Contact::where('status', 1)->with('category');
+
+        if ($request->has('query')) {
+            $filter = $request->input('query');
+            // Add your filtering logic here
+            $listings->where('company_name', 'like', '%' . $filter . '%');
+        }
+
+        if ($request->has('check')) {
+            $listings->whereIn('category_id',[implode(",",$request->check)]);
+        }
+
+        $listings = $listings->paginate(10); // Capture the paginated result
+        $total =  $listings->toArray();
+        $total =  $total['total'] ?? "N/A";
+
+        return view('products', compact('category','listings','total'));
+    }
+
 }
